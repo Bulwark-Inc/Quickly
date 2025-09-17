@@ -1,0 +1,67 @@
+<footer class="bg-gray-900 text-white py-16" data-aos="fade-up">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12">
+
+    <!-- 1. Company Info -->
+    <div>
+      <h2 class="text-2xl font-extrabold text-blue-500 tracking-wide mb-4 flex items-center gap-2">
+        <i data-lucide="zap" class="w-6 h-6"></i> Quickly
+      </h2>
+      <p class="text-sm text-gray-400 leading-relaxed mb-6">
+        Build faster with Quickly — modern tools for modern teams.
+      </p>
+      <nav class="space-y-2 text-sm" aria-label="Footer Navigation">
+        <a href="{% url 'about' %}" class="block hover:text-blue-400 transition">About</a>
+        <a href="{% url 'contact' %}" class="block hover:text-blue-400 transition">Contact</a>
+        <a href="#" class="block hover:text-blue-400 transition">Privacy Policy</a>
+      </nav>
+    </div>
+
+    <!-- 2. Newsletter Signup -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Subscribe to our newsletter</h2>
+      <p class="text-sm text-gray-400 leading-relaxed mb-6">
+        Be the first to know about new features, tips, and updates.
+      </p>
+      <form action="#" method="POST" class="flex flex-col sm:flex-row items-center gap-3">
+        <label for="newsletter-email" class="sr-only">Email address</label>
+        <div class="relative w-full sm:flex-1">
+          <i data-lucide="mail" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4"></i>
+          <input id="newsletter-email" type="email" name="email" required
+                 placeholder="you@example.com"
+                 class="pl-10 pr-4 py-2 w-full rounded-md bg-gray-800 text-sm placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <button type="submit"
+                class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm transition shadow">
+          Subscribe
+        </button>
+      </form>
+    </div>
+
+    <!-- 3. Social Media -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Follow us</h2>
+      <div class="flex items-center space-x-4">
+        <a href="#" class="group" aria-label="Twitter" target="_blank" rel="noopener">
+          <div class="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-blue-600 rounded-full transition">
+            <i data-lucide="twitter" class="w-5 h-5 text-gray-400 group-hover:text-white"></i>
+          </div>
+        </a>
+        <a href="#" class="group" aria-label="GitHub" target="_blank" rel="noopener">
+          <div class="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-gray-700 rounded-full transition">
+            <i data-lucide="github" class="w-5 h-5 text-gray-400 group-hover:text-white"></i>
+          </div>
+        </a>
+        <a href="#" class="group" aria-label="LinkedIn" target="_blank" rel="noopener">
+          <div class="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-blue-700 rounded-full transition">
+            <i data-lucide="linkedin" class="w-5 h-5 text-gray-400 group-hover:text-white"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Divider + Copyright -->
+  <div class="border-t border-gray-800 mt-16 pt-6 text-center text-sm text-gray-500">
+    &copy; {{ now|date:"Y" }} Quickly. All rights reserved.
+  </div>
+</footer>

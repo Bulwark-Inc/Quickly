@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Paystack Checkout | Quickly{% endblock %}
+{% block back_button_link %}{% url 'submit_payment' %}{% endblock %}
+{% block back_button_text %}Back to Payment Options{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 px-6">
+  <div class="max-w-xl mx-auto space-y-12" data-aos="fade-up">
+
+    <!-- Heading -->
+    <header class="text-center space-y-2">
+      <i data-lucide="credit-card" class="w-10 h-10 text-blue-600 dark:text-blue-400 mx-auto"></i>
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Simulate Paystack Payment</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-400">This is a demo environment for test transactions only.</p>
+    </header>
+
+    <!-- Payment Summary -->
+    <div class="bg-green-50 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded-lg p-6 shadow-sm text-green-900 dark:text-green-200 space-y-3">
+      <div class="flex items-center space-x-3">
+        <i data-lucide="wallet" class="w-5 h-5"></i>
+        <p class="text-lg font-semibold">
+          Total Amount: <span class="font-bold">₦{{ session.total_amount|intcomma }}</span>
+        </p>
+      </div>
+      <div class="flex items-center space-x-3">
+        <i data-lucide="hash" class="w-5 h-5"></i>
+        <p class="text-sm md:text-base" title="{{ session.session_id }}">
+          Reference: <span class="font-semibold">{{ session.session_id|stringformat:"s"|slice:":8" }}
+...</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Fees Breakdown -->
+    <section>
+      <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
+        <i data-lucide="list" class="w-5 h-5"></i>
+        Fees to be Paid
+      </h3>
+      <ul class="space-y-3">
+        {% for fee in fees %}
+        <li class="flex items-center justify-between bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md px-4 py-2 shadow-sm">
+          <div class="flex items-center gap-2 text-gray-800 dark:text-gray-200">
+            <i data-lucide="badge-dollar-sign" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+            {{ fee.name }}
+          </div>
+          <div class="relative w-16 h-1 mx-2 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full"></div>
+          <div class="text-gray-900 dark:text-gray-100 font-medium">₦{{ fee.total|intcomma }}</div>
+        </li>
+        {% empty %}
+        <li class="text-gray-500 dark:text-gray-400 italic">No fees selected.</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- Simulated Payment CTA -->
+    <form method="POST" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      {% csrf_token %}
+      <button type="submit"
+              class="w-full py-3 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded-md text-white font-semibold transition">
+        Simulate Paystack Payment
+      </button>
+    </form>
+
+  </div>
+</section>
+{% endblock %}

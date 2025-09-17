@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Proof Submitted | Quickly{% endblock %}
+{% block back_button_link %}{% url 'dashboard' %}{% endblock %}
+{% block back_button_text %}Back to Dashboard{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex flex-col justify-center items-center bg-blue-50 dark:bg-blue-900 px-6 py-16" data-aos="fade-up">
+  <div class="max-w-md text-center bg-white dark:bg-gray-800 rounded-xl shadow-xl p-10">
+    <i data-lucide="upload-cloud" class="w-16 h-16 text-blue-600 dark:text-blue-400 mx-auto mb-4"></i>
+    <h1 class="text-3xl font-bold mb-2 text-blue-900 dark:text-blue-200">Proof of Payment Submitted!</h1>
+    <p class="text-gray-700 dark:text-gray-300 mb-6">
+      Your bank transfer proof has been uploaded successfully and is pending verification.
+    </p>
+    <a href="{% url 'dashboard' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition">
+      Go to Dashboard
+    </a>
+  </div>
+</section>
+{% endblock %}

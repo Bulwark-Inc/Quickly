@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.pot
+*.sqlite3
+
+# Django
+*.db
+db.sqlite3
+media/
+instance/
+staticfiles/
+
+# Environment variables & virtualenv
+.env
+.env.*
+venv/
+env/
+penv/
+
+# Node.js
+**/node_modules/
+**/package-lock.json 
+
+# Tailwind build control
+Procfile.tailwind
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Config files (check if this is sensitive or auto-generated)
+config.json

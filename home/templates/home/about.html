@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="py-20 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100" data-aos="fade-up">
+  <div class="max-w-5xl mx-auto px-6 text-center">
+    <h1 class="text-4xl font-bold mb-6">About Quickly</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+      Quickly is designed to help students manage and track all academic-related payments
+      with ease, speed, and full transparency. Built for institutions and students, it
+      bridges the gap between payment processes and accessible financial clarity.
+    </p>
+
+    <div class="flex flex-col md:flex-row justify-center items-center gap-8 mt-12" data-aos="fade-up">
+
+      <!-- Mission -->
+      <div class="flex flex-col items-center text-center max-w-sm">
+        <div class="bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-200 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+          <i data-lucide="target" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Our Mission</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          To simplify academic payment systems and empower students with control and clarity.
+        </p>
+      </div>
+
+      <!-- Vision -->
+      <div class="flex flex-col items-center text-center max-w-sm">
+        <div class="bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-200 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+          <i data-lucide="eye" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Our Vision</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          A future where no student is left behind due to financial opacity or administrative delays.
+        </p>
+      </div>
+
+    </div>
+
+</section>
+{% endblock %}

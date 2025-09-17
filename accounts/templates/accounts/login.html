@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block back_button %}{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 flex items-center justify-center py-24 px-6">
+  <div class="bg-white dark:bg-gray-900 shadow-xl rounded-xl max-w-md w-full p-8 space-y-6" data-aos="fade-up">
+    
+    <!-- Header -->
+    <div class="text-center space-y-2">
+      <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
+        <i data-lucide="log-in" class="w-6 h-6"></i>
+      </div>
+      <h2 class="text-3xl font-extrabold text-gray-800 dark:text-white">Login</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
+        Access your Quickly dashboard
+      </p>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+      <div class="space-y-2">
+        {% for message in messages %}
+          <div class="text-sm text-red-600 dark:text-red-400 font-medium">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Login Form -->
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Email</label>
+        <input type="email" name="email" id="email" required
+          class="mt-2 w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium">
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
+        <input type="password" name="password" id="password" required
+          class="mt-2 w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium">
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+        class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition">
+        Login
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <p class="text-center text-sm text-gray-600 dark:text-gray-400 font-medium">
+      Don’t have an account?
+      <a href="{% url 'register' %}" class="text-blue-500 hover:underline font-semibold">Register here</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

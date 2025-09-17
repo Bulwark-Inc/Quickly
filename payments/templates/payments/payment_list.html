@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Submit Payment | Quickly{% endblock %}
+{% block back_button_link %}{% url 'dashboard' %}{% endblock %}
+{% block back_button_text %}Back to Dashboard{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 px-6" data-aos="fade-up">
+  <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 space-y-8">
+
+    <!-- Page Heading -->
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-white flex items-center justify-center gap-2">
+        <i data-lucide="credit-card" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+        Make a Payment
+      </h2>
+      <p class="text-gray-500 dark:text-gray-400 mt-2">Select your fee types and payment method to proceed.</p>
+    </div>
+
+    <!-- Form Errors -->
+    {% if form.non_field_errors %}
+      <div class="bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200 px-4 py-3 rounded text-sm">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-8">
+      {% csrf_token %}
+
+      <!-- Fee Types -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
+          <i data-lucide="file-text" class="w-5 h-5 text-blue-500 dark:text-blue-300"></i>
+          Select Fee(s)
+        </h3>
+        <div class="space-y-3">
+          {% for fee in form.fee_types.field.queryset %}
+            {% if fee.id in paid_fee_ids %}
+              <!-- Already paid fees: disabled & crossed out -->
+              <div class="flex items-start gap-3 bg-gray-100 dark:bg-gray-700 p-3 rounded-md opacity-60 cursor-not-allowed">
+                <input
+                  type="checkbox"
+                  disabled
+                  class="mt-1 accent-gray-400 cursor-not-allowed"
+                />
+                <label class="line-through text-gray-400 dark:text-gray-500 text-sm">
+                  {{ fee.name }} — ₦{{ fee.total|floatformat:2|intcomma }}
+                </label>
+              </div>
+            {% else %}
+              <!-- Selectable fees -->
+              <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                <input
+                  type="checkbox"
+                  name="fee_types"
+                  value="{{ fee.id }}"
+                  id="fee{{ fee.id }}"
+                  class="mt-1 accent-blue-600 dark:accent-blue-400"
+                  {% if fee.id|stringformat:"s" in selected_fee_ids %}checked{% endif %}
+                />
+                <label for="fee{{ fee.id }}" class="text-gray-800 dark:text-gray-200 text-sm">
+                  {{ fee.name }} - ₦{{ fee.total|floatformat:2|intcomma }} (₦{{ fee.amount|floatformat:2|intcomma }} + ₦{{ fee.charge|floatformat:2|intcomma }})
+                </label>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+
+          {% for error in form.fee_types.errors %}
+            <p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ error }}</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Stylish SVG Divider -->
+      <div class="relative py-4">
+        <div class="absolute inset-0 flex items-center" aria-hidden="true">
+          <div class="w-full border-t border-dashed border-gray-300 dark:border-gray-600"></div>
+        </div>
+        <div class="relative flex justify-center">
+          <span class="bg-white dark:bg-gray-800 px-3 text-gray-500 dark:text-gray-400 text-sm">
+            Choose Method
+          </span>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
+          <i data-lucide="wallet" class="w-5 h-5 text-blue-500 dark:text-blue-300"></i>
+          Payment Method
+        </h3>
+        <div class="space-y-3">
+          {% for radio in form.payment_method %}
+            <label class="flex items-center gap-3 cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 p-3 rounded-md transition">
+              {{ radio.tag }}
+              <span class="text-gray-800 dark:text-gray-200 text-sm">{{ radio.choice_label }}</span>
+            </label>
+          {% endfor %}
+
+          {% for error in form.payment_method.errors %}
+            <p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ error }}</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
+          Proceed to Payment
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="py-20 bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100" data-aos="fade-up">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h1 class="text-4xl font-bold mb-6">Contact Us</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-300 mb-12">
+      We’re here to help. Reach out to us anytime with questions, feedback, or support needs.
+    </p>
+
+    <!-- Contact Details -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mb-12" data-aos="fade-up">
+      <!-- Email -->
+      <div class="flex items-start gap-4">
+        <div class="bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-200 w-12 h-12 rounded-full flex items-center justify-center">
+          <i data-lucide="mail" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold">Email</h3>
+          <p class="text-gray-600 dark:text-gray-300">quickly@gmail.com</p>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="flex items-start gap-4">
+        <div class="bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-200 w-12 h-12 rounded-full flex items-center justify-center">
+          <i data-lucide="phone" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold">Phone</h3>
+          <p class="text-gray-600 dark:text-gray-300">+234-901-553-4404</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <form action="{% url 'contact' %}" method="POST" class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md dark:shadow-none" data-aos="zoom-in">
+      {% csrf_token %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+          <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+          <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+      </div>
+      <div class="mt-6">
+        <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
+        <input type="text" id="subject" name="subject" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div class="mt-6">
+        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+        <textarea id="message" name="message" rows="5" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+      <div class="mt-6 text-right">
+        <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
+          Send Message
+        </button>
+      </div>
+    </form>
+
+{% endblock %}

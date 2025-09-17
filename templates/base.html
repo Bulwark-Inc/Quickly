@@ -1,0 +1,65 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" data-aos="fade-in">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Quickly{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% tailwind_css %}
+    <link rel="stylesheet" href="{% static 'js/bundle.css' %}">
+    {% block styles %}{% endblock %}
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    {% include "components/header.html" %}
+
+    <!-- Main -->
+    <main class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex-grow" data-aos="fade-up">
+
+        <!-- Back Button -->
+        {% block back_button %}
+        <a href="{% block back_button_link %}{% url 'home' %}{% endblock %}" 
+            class="inline-flex items-center text-blue-600 hover:text-blue-800 mt-16 sm:mt-20 ml-4 sm:ml-8 mb-6">
+            <!-- Left Arrow Icon -->
+            {% block hide_svg %}
+            <i data-lucide="arrow-left" class="w-6 h-6 mr-2"></i>
+            {% endblock %}
+            <span>{% block back_button_text %}Back Home{% endblock %}</span>
+        </a>
+        {% endblock %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include "components/footer.html" %}
+
+    <!-- Darkmode Script -->
+    <script src="{% static 'js/darkmode.js' %}" defer></script>
+    
+    <!-- Alpine / AOS / Lucide JS Library -->
+    <script src="{% static 'js/bundle.js' %}" defer></script>
+
+    <!-- Toast Container -->
+    <div id="toast" class="fixed bottom-6 right-6 max-w-sm w-full bg-green-600 text-white px-4 py-3 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toast = document.getElementById('toast');
+            {% if messages %}
+            {% for message in messages %}
+                toast.textContent = "{{ message }}";
+                toast.classList.remove('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+                }, 4000);
+            {% endfor %}
+            {% endif %}
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

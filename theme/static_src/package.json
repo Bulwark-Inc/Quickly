@@ -1,0 +1,36 @@
+{
+  "name": "theme",
+  "version": "4.2.0",
+  "description": "",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "npm-run-all --parallel dev:css dev:js",
+    "dev:css": "cross-env NODE_ENV=development postcss ./src/styles.css -o ../static/css/dist/styles.css --watch",
+    "dev:js": "esbuild ./src/app.js --bundle --outfile=../static/js/bundle.js --watch --sourcemap",
+    "build": "npm run build:clean && npm-run-all build:css build:js",
+    "build:clean": "rimraf ../static/css/dist ../static/js/bundle.js",
+    "build:css": "cross-env NODE_ENV=production postcss ./src/styles.css -o ../static/css/dist/styles.css --minify",
+    "build:js": "esbuild ./src/app.js --bundle --minify --outfile=../static/js/bundle.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "cross-env": "^7.0.3",
+    "daisyui": "^5.0.43",
+    "esbuild": "^0.25.9",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-nested": "^7.0.2",
+    "postcss-simple-vars": "^7.0.1",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^4.1.11"
+  },
+  "dependencies": {
+    "alpinejs": "^3.15.0",
+    "aos": "^2.3.4",
+    "lucide": "^0.544.0"
+  }
+}
