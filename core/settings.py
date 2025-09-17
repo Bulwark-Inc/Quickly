@@ -99,6 +99,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SITE_ID = 1
 TAILWIND_APP_NAME = 'theme'
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_URL = 'login'
@@ -110,7 +111,7 @@ EMAIL_PORT = env('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = env('EMAIL_USE_SSL', default=True, cast=bool)
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@quickly.com')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='Qickly noreply@quickly.com')
 
 # reCAPTCHA SETTINGS
 RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY')
@@ -121,7 +122,6 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"

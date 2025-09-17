@@ -7,7 +7,7 @@ from .models import User
 
 class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model in the admin
-    list_display = ('email', 'first_name', 'last_name', 'matric_number', 'is_staff', 'is_superuser')
+    list_display = ('email', 'first_name', 'last_name', 'matric_number', 'is_active', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active')
 
     # The fieldsets control the layout when editing a user in admin

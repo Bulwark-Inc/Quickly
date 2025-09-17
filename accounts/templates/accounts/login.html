@@ -11,22 +11,40 @@
     
     <!-- Header -->
     <div class="text-center space-y-2">
-      <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
-        <i data-lucide="log-in" class="w-6 h-6"></i>
-      </div>
-      <h2 class="text-3xl font-extrabold text-gray-800 dark:text-white">Login</h2>
-      <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
-        Access your Quickly dashboard
-      </p>
+        <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
+            <i data-lucide="log-in" class="w-6 h-6"></i>
+        </div>
+        <h2 class="text-3xl font-extrabold text-gray-800 dark:text-white">Login</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
+            Access your Quickly dashboard
+        </p>
     </div>
 
     <!-- Messages -->
     {% if messages %}
-      <div class="space-y-2">
-        {% for message in messages %}
-          <div class="text-sm text-red-600 dark:text-red-400 font-medium">{{ message }}</div>
-        {% endfor %}
-      </div>
+        <div class="space-y-2">
+            {% for message in messages %}
+                {% if message.tags == "success" %}
+                    <div class="text-sm text-green-600 dark:text-green-400 font-medium">{{ message }}</div>
+                {% elif message.tags == "info" %}
+                    <div class="text-sm text-blue-600 dark:text-blue-400 font-medium">{{ message }}</div>
+                {% elif message.tags == "warning" %}
+                    <div class="text-sm text-yellow-600 dark:text-yellow-400 font-medium">{{ message }}</div>
+                {% else %}
+                    <div class="text-sm text-red-600 dark:text-red-400 font-medium">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if request.session.unverified_user_email %}
+        <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            Didn't get the activation email?
+            <a href="{% url 'resend_activation' %}?email={{ request.session.unverified_user_email }}"
+            class="text-blue-500 hover:underline">Resend it</a>
+        </p>    
+        {% with None as request.session.unverified_user_email %}
+        {% endwith %}
     {% endif %}
 
     <!-- Login Form -->
@@ -46,6 +64,8 @@
         <input type="password" name="password" id="password" required
           class="mt-2 w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 dark:text-white font-medium">
       </div>
+      
+      <div><a href={% url "forgot_password" %}>Forgotten Password</a></div>
 
       <!-- Submit -->
       <button type="submit"

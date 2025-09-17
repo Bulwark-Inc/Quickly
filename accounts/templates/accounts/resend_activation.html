@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Resend Activation Email{% endblock %}
 
 {% block back_button %}{% endblock %}
 
 {% block content %}
 <section class="min-h-screen bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 flex items-center justify-center py-24 px-6">
   <div class="bg-white dark:bg-gray-900 shadow-xl rounded-xl max-w-md w-full p-8 space-y-6" data-aos="fade-up">
-    
+
     <!-- Header -->
     <div class="text-center space-y-2">
       <div class="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
-        <i data-lucide="user-plus" class="w-6 h-6"></i>
+        <i data-lucide="send" class="w-6 h-6"></i>
       </div>
-      <h2 class="text-3xl font-extrabold text-gray-800 dark:text-white">Create Account</h2>
-      <p class="text-sm text-gray-500 dark:text-`gray-400 font-medium">
-        Join Quickly and take control of your school payments
+      <h2 class="text-3xl font-extrabold text-gray-800 dark:text-white">Resend Activation Email</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
+        Enter your email address to get a new activation link
       </p>
     </div>
 
@@ -24,36 +24,36 @@
     {% if messages %}
       <div class="space-y-2">
         {% for message in messages %}
-          <div class="text-sm text-red-600 dark:text-red-400 font-medium">{{ message }}</div>
+          <div class="text-sm {% if message.tags == 'success' %}text-green-600 dark:text-green-400{% else %}text-red-600 dark:text-red-400{% endif %} font-medium">
+            {{ message }}
+          </div>
         {% endfor %}
       </div>
     {% endif %}
 
-    <!-- Registration Form -->
+    <!-- Form -->
     <form method="post" class="space-y-6">
       {% csrf_token %}
-      {% for field in form %}
-        <div>
-          <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-            {{ field.label }}
-          </label>
-          {{ field }}
-          {% if field.errors %}
-            <p class="text-sm text-red-600 mt-1">{{ field.errors.0 }}</p>
-          {% endif %}
-        </div>
-      {% endfor %}
+      <div>
+        <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
+          Email
+        </label>
+        {{ form.email }}
+        {% if form.email.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ form.email.errors.0 }}</p>
+        {% endif %}
+      </div>
 
       <button type="submit"
         class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition">
-        Register
+        Resend
       </button>
     </form>
 
     <!-- Footer -->
     <p class="text-center text-sm text-gray-600 dark:text-gray-400 font-medium">
-      Already have an account?
-      <a href="{% url 'login' %}" class="text-blue-500 hover:underline font-semibold">Login here</a>
+      Already activated?
+      <a href="{% url 'login' %}" class="text-blue-500 hover:underline font-semibold">Login</a>
     </p>
   </div>
 </section>
