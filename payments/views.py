@@ -4,6 +4,10 @@ from django.contrib import messages
 from .models import PaymentRecord, PaymentSession, FeeType
 from .forms import MultiFeePaymentForm, BankTransferProofForm
 from django.conf import settings
+import uuid
+import requests
+from django.views.decorators.csrf import csrf_exempt
+from .utils import send_payment_email
 
 
 @login_required
@@ -89,6 +93,7 @@ def bank_transfer_upload_view(request):
                 )
 
             messages.success(request, f"Payment submitted for {fees.count()} fee(s). Pending verification.")
+            send_payment_email(user, session, fees, "bank transfer")
 
             # Clear session data after submission
             request.session.pop('selected_fees', None)
@@ -123,8 +128,61 @@ def paystack_payment_view(request):
         messages.error(request, "Payment session not found.")
         return redirect('submit_payment')
 
-    if request.method == 'POST':
-        # Simulate payment success
+    amount_in_kobo = int(session.total_amount * 100)  # Paystack expects amount in kobo
+
+    # Generate unique reference for Paystack
+    reference = str(uuid.uuid4())
+    session.paystack_reference = reference
+    session.save()
+
+    context = {
+        'fees': fees,
+        'session': session,
+        'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY,
+        'amount': amount_in_kobo,
+        'email': user.email,
+        'reference': reference,
+        'callback_url': settings.PAYSTACK_CALLBACK_URL,
+    }
+
+    return render(request, 'payments/paystack_payment.html', context)
+
+
+@login_required
+@csrf_exempt
+def paystack_callback_view(request):
+    reference = request.GET.get('reference')
+    if not reference:
+        messages.error(request, "No payment reference provided.")
+        return redirect('submit_payment')
+
+    headers = {
+        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+    }
+
+    url = f"https://api.paystack.co/transaction/verify/{reference}"
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        result = response.json()
+    except (requests.RequestException, ValueError) as e:
+        messages.error(request, "Could not verify payment at this time. Please try again later.")
+        # Optionally log error: logger.exception(e)
+        return redirect('submit_payment')
+
+
+    if result['status'] and result['data']['status'] == 'success':
+        try:
+            session = PaymentSession.objects.get(paystack_reference=reference)
+        except PaymentSession.DoesNotExist:
+            messages.error(request, "Session not found for this payment.")
+            return redirect('submit_payment')
+
+        user = session.user
+        fees = FeeType.objects.filter(id__in=request.session.get('selected_fees', []))
+
+        # === DEMO MODE: Skip actual creation ===
+        """
         for fee in fees:
             PaymentRecord.objects.create(
                 user=user,
@@ -133,21 +191,21 @@ def paystack_payment_view(request):
                 charge=fee.charge,
                 total_amount=fee.total,
                 session=session,
-                status=PaymentRecord.STATUS_VERIFIED  # Instant verification
+                status=PaymentRecord.STATUS_VERIFIED
             )
+        """
 
-        messages.success(request, f"Payment completed for {fees.count()} fee(s).")
+        send_payment_email(user, session, fees, "paystack")
+        messages.success(request, f"[DEMO] Payment verified for {fees.count()} fee(s), but no records were created.")
 
-        # Clear session data after successful payment
+        # Clear session
         request.session.pop('selected_fees', None)
         request.session.pop('session_id', None)
 
-        return redirect('payment_success')  # <-- Updated redirect
-
-    return render(request, 'payments/paystack_payment.html', {
-        'fees': fees,
-        'session': session,
-    })
+        return redirect('payment_success')
+    else:
+        messages.error(request, "Payment verification failed.")
+        return redirect('submit_payment')
 
 
 @login_required

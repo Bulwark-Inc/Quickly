@@ -1,7 +1,7 @@
 import { createIcons, icons } from 'lucide';
 import Alpine from 'alpinejs'
-import AOS from 'aos';
 import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 window.Alpine = Alpine
 

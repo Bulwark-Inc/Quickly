@@ -110,12 +110,18 @@ EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = env('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_USE_SSL = env('EMAIL_USE_SSL', default=True, cast=bool)
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='Qickly noreply@quickly.com')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True, cast=bool)
+DEFAULT_FROM_EMAIL = 'Quickly <noreply@quickly.com>'
+
 
 # reCAPTCHA SETTINGS
 RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
+
+# paystack SETTINGS
+PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY')
+PAYSTACK_PUBLIC_KEY = env("PAYSTACK_PUBLIC_KEY")
+PAYSTACK_CALLBACK_URL = 'http://localhost:8000/paystack/callback/'
 
 # Internationalization
 LANGUAGE_CODE = "en-us"

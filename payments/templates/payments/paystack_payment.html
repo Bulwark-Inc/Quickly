@@ -13,7 +13,7 @@
     <!-- Heading -->
     <header class="text-center space-y-2">
       <i data-lucide="credit-card" class="w-10 h-10 text-blue-600 dark:text-blue-400 mx-auto"></i>
-      <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Simulate Paystack Payment</h2>
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Confirm Payment</h2>
       <p class="text-sm text-gray-600 dark:text-gray-400">This is a demo environment for test transactions only.</p>
     </header>
 
@@ -28,8 +28,7 @@
       <div class="flex items-center space-x-3">
         <i data-lucide="hash" class="w-5 h-5"></i>
         <p class="text-sm md:text-base" title="{{ session.session_id }}">
-          Reference: <span class="font-semibold">{{ session.session_id|stringformat:"s"|slice:":8" }}
-...</span>
+          Reference: <span class="font-semibold">{{ session.session_id|stringformat:"s"|slice:":8" }}...</span>
         </p>
       </div>
     </div>
@@ -56,15 +55,35 @@
       </ul>
     </section>
 
-    <!-- Simulated Payment CTA -->
-    <form method="POST" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-      {% csrf_token %}
-      <button type="submit"
+    <!-- Paystack Payment CTA -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      <button id="payButton"
               class="w-full py-3 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded-md text-white font-semibold transition">
-        Simulate Paystack Payment
+        Pay Now with Paystack
       </button>
-    </form>
+    </div>
 
   </div>
 </section>
+
+<!-- Paystack Script -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+  document.getElementById('payButton').addEventListener('click', function () {
+    var handler = PaystackPop.setup({
+      key: '{{ paystack_public_key }}',
+      email: '{{ email }}',
+      amount: {{ amount }},  // amount in kobo
+      ref: '{{ reference }}',
+      callback: function(response){
+        // Redirect to a Django view for verification
+        window.location.href = "{% url 'paystack_callback' %}?reference=" + response.reference;
+      },
+      onClose: function(){
+        alert('Payment window closed.');
+      }
+    });
+    handler.openIframe();
+  });
+</script>
 {% endblock %}

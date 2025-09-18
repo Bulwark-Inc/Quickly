@@ -29,4 +29,10 @@ def send_template_email(subject, template_path, context, to_email, fail_silently
         to=[to_email]
     )
     email.attach_alternative(html_message, "text/html")
-    email.send(fail_silently=fail_silently)
+    try:
+        email.send(fail_silently=fail_silently)
+    except Exception as e:
+        if not fail_silently:
+            raise
+        # Optionally log here
+        print(f"Email sending failed: {e}")

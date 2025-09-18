@@ -33,6 +33,7 @@ class PaymentSession(models.Model):
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
     total_amount = models.DecimalField(max_digits=12, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
+    paystack_reference = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return f"Session {self.session_id} - {self.user.email} - ₦{self.total_amount}"

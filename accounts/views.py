@@ -39,7 +39,7 @@ def register_view(request):
 
             send_template_email(
                 subject="Activate your Quickly account",
-                template_path="emails/activation_email.html",
+                template_path="accounts/emails/activation_email.html",
                 context={
                     "user": user,
                     "activation_url": activation_url,
