@@ -1,5 +1,6 @@
 from pathlib import Path
 import environ
+import sys
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,6 +76,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
+
 # Database
 # DATABASES = {
 #     "default": {
@@ -82,17 +84,24 @@ WSGI_APPLICATION = "core.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+if DEBUG or 'test' in sys.argv or 'pytest' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',  # Or 'test_db.sqlite3' if you prefer a file
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': env('DB_NAME'),
+            'USER': env('DB_USER'),
+            'PASSWORD': env('DB_PASSWORD'),
+            'HOST': env('DB_HOST'),
+            'PORT': env('DB_PORT'),
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -111,8 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SITE_ID = 1
-TAILWIND_APP_NAME = 'theme'
 AUTH_USER_MODEL = 'accounts.User'
+TAILWIND_APP_NAME = 'theme'
 LOGIN_URL = 'login'
 
 # EMAIL SETTINGS

@@ -12,6 +12,8 @@ class FeeType(models.Model):
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
+        self.amount = self.amount or 0.0
+        self.charge = self.charge or 0.0
         self.total = self.amount + self.charge
         super().save(*args, **kwargs)
 
