@@ -7,7 +7,7 @@ __pycache__/
 *.log
 *.pot
 *.sqlite3
-pytest.ini
+# pytest.ini
 
 # Django
 *.db
@@ -15,8 +15,7 @@ db.sqlite3
 media/
 instance/
 staticfiles/
-payment_proofs/
-# may need to change
+media/
 
 # Environment variables & virtualenv
 .env

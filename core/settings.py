@@ -84,7 +84,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
-if DEBUG or 'test' in sys.argv or 'pytest' in sys.argv:
+if 'test' in sys.argv or 'pytest' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

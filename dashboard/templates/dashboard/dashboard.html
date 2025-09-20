@@ -74,9 +74,9 @@
               <td class="px-4 py-2">{{ record.date_paid|date:"M d, Y H:i" }}</td>
               <td class="px-4 py-2">
                 {% if record.proof_of_payment %}
-                  <a href="{{ record.proof_of_payment.url }}" target="_blank" class="text-blue-600 hover:underline">View</a>
+                  <a href="{% url 'view_receipt_secure' record.id %}" target="_blank" class="text-blue-600 hover:underline">View</a>
                 {% else %}
-                  —
+                  <em>No receipt uploaded</em>
                 {% endif %}
               </td>
             </tr>

@@ -3,6 +3,9 @@ from django.db import models
 from django.conf import settings
 
 
+def user_directory_path(instance, filename):
+    return f'payment_proofs/user_{instance.user.id}/{filename}'
+
 class FeeType(models.Model):
     name = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -54,11 +57,11 @@ class PaymentRecord(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     fee_type = models.ForeignKey(FeeType, on_delete=models.CASCADE)
-    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)  # What the user paid
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     charge = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # amount + charge
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     session = models.ForeignKey(PaymentSession, on_delete=models.SET_NULL, null=True, blank=True)
-    proof_of_payment = models.FileField(upload_to='payment_proofs/', blank=True, null=True)
+    proof_of_payment = models.FileField(upload_to=user_directory_path, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_PENDING)
     date_paid = models.DateTimeField(auto_now_add=True)
 
