@@ -153,7 +153,6 @@
 </section>
 
 
-<!-- Pricing Section -->
 <section id="pricing" class="py-20 bg-white dark:bg-gray-900" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-6 text-center">
     <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">Our Pricing</h2>
@@ -162,45 +161,33 @@
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-      <!-- Card 1 -->
-      <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
-        <div class="mb-4 text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">Single Payment</div>
-        <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">₦1,000 – ₦2,000</h3>
-        <p class="text-gray-600 dark:text-gray-300 mb-6">For one-time payment assistance.</p>
-        <ul class="space-y-3 mb-6 text-gray-600 dark:text-gray-300">
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1k for payments < ₦50k</li>
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1.5k for ₦50k – ₦99,999</li>
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦2k for ₦100k and above</li>
-        </ul>
-        <a href="{% url 'register' %}" class="inline-block w-full text-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Get Started</a>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-1 border-2 border-blue-600 dark:border-blue-500">
-        <div class="mb-4 text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">Two Payments</div>
-        <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">₦1,000 – ₦1,500 per payment</h3>
-        <p class="text-gray-600 dark:text-gray-300 mb-6">Ideal if you're making two different payments.</p>
-        <ul class="space-y-3 mb-6 text-gray-600 dark:text-gray-300">
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1k each ≤ ₦100k</li>
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1.5k each > ₦100k</li>
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>Separate receipts for each</li>
-        </ul>
-        <a href="{% url 'register' %}" class="inline-block w-full text-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Start Now</a>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 border-2 border-green-500 relative">
-        <span class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl">Best Value</span>
-        <div class="mb-4 text-green-600 dark:text-green-400 font-semibold text-sm uppercase tracking-wide">3+ Payments</div>
-        <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">20% Discount</h3>
-        <p class="text-gray-600 dark:text-gray-300 mb-6">Let us handle 3 or more payments and enjoy automatic discounts.</p>
-        <ul class="space-y-3 mb-6 text-gray-600 dark:text-gray-300">
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>20% off total service fee</li>
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>Priority processing</li>
-          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>Grouped receipt delivery</li>
-        </ul>
-        <a href="{% url 'register' %}" class="inline-block w-full text-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">Pay Less Now</a>
-      </div>
+      {% for option in pricing_options %}
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-1
+          {% if option.title == 'Two Payments' %} border-2 border-blue-600 dark:border-blue-500{% endif %}
+          {% if option.title == '3+ Payments' %} border-2 border-green-500 relative{% endif %}
+          ">
+          {% if option.title == '3+ Payments' %}
+            <span class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl">Best Value</span>
+          {% endif %}
+          <div class="mb-4 font-semibold text-sm uppercase tracking-wide
+            {% if option.title == 'Single Payment' %} text-blue-600 dark:text-blue-400
+            {% elif option.title == 'Two Payments' %} text-blue-600 dark:text-blue-400
+            {% elif option.title == '3+ Payments' %} text-green-600 dark:text-green-400
+            {% endif %}">{{ option.title }}</div>
+          <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">{{ option.headline }}</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-6">{{ option.description }}</p>
+          <ul class="space-y-3 mb-6 text-gray-600 dark:text-gray-300">
+            {% for feature in option.get_features_list %}
+              <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>{{ feature }}</li>
+            {% endfor %}
+          </ul>
+          <a href="{% url 'register' %}" class="inline-block w-full text-center px-4 py-2
+            {% if option.title == '3+ Payments' %} bg-green-600 hover:bg-green-700
+            {% else %} bg-blue-600 hover:bg-blue-700
+            {% endif %}
+            text-white rounded transition">{{ option.cta_text }}</a>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </section>
