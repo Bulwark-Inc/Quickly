@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Privacy Policy | Quickly{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100" data-aos="fade-up">
+  <div class="max-w-4xl mx-auto px-6">
+
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Privacy Policy</h1>
+      <p class="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+        Your privacy matters. Here's how we protect your data at Quickly.
+      </p>
+    </div>
+
+    <!-- Policy Sections -->
+    <div class="space-y-8">
+
+      <!-- Reusable Section -->
+      {% for section in policy_sections %}
+      <div class="group border border-gray-200 dark:border-gray-700 rounded-xl p-6 transition hover:shadow-md">
+        <div class="flex items-start justify-between">
+          <h2 class="text-xl font-semibold text-blue-600 dark:text-blue-400">
+            {{ section.title }}
+          </h2>
+          <button type="button" class="md:hidden focus:outline-none text-blue-600 dark:text-blue-400"
+            onclick="toggleSection(this)">
+            <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-200"></i>
+          </button>
+        </div>
+        <div class="mt-4 text-gray-700 dark:text-gray-300 prose prose-blue dark:prose-invert max-w-none hidden md:block">
+          {{ section.content|safe }}
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <!-- Contact Section -->
+    <div class="mt-16 border-t border-gray-300 dark:border-gray-700 pt-8">
+      <h2 class="text-2xl font-bold mb-4">Need more help?</h2>
+      <p class="text-gray-700 dark:text-gray-400 mb-4">
+        Contact us via email or phone and we’ll respond as soon as possible.
+      </p>
+      <ul class="space-y-2">
+        <li><strong>Email:</strong> <a href="mailto:quickly@gmail.com"
+            class="text-blue-600 dark:text-blue-400 hover:underline">quicklyabsu@gmail.com</a></li>
+        <li><strong>Phone:</strong> <a href="tel:+2349015534404"
+            class="text-blue-600 dark:text-blue-400 hover:underline">+234-901-553-4404</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Mobile toggle function
+  function toggleSection(button) {
+    const content = button.closest('.group').querySelector('.prose');
+    const icon = button.querySelector('i');
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      icon.classList.add('rotate-180');
+    } else {
+      content.classList.add('hidden');
+      icon.classList.remove('rotate-180');
+    }
+  }
+</script>
+{% endblock %}

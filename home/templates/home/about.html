@@ -1,41 +1,94 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}About Us - Quickly{% endblock %}
+{% block back_button_text %}Back Home{% endblock %}
+{% block back_button_link %}{% url 'home' %}{% endblock %}
+
 {% block content %}
-<section class="py-20 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100" data-aos="fade-up">
-  <div class="max-w-5xl mx-auto px-6 text-center">
-    <h1 class="text-4xl font-bold mb-6">About Quickly</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-      Quickly is designed to help students manage and track all academic-related payments
-      with ease, speed, and full transparency. Built for institutions and students, it
-      bridges the gap between payment processes and accessible financial clarity.
+
+<!-- About Hero -->
+<section class="py-24 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white dark:from-blue-700 dark:via-blue-800 dark:to-indigo-900" data-aos="fade-in">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-6">About Quickly</h1>
+    <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
+      We're making school payments easier, safer, and smarter - so you can focus on your academics, not the hassle.
+    </p>
+  </div>
+</section>
+
+<!-- Our Story -->
+<section class="py-20 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div>
+      <h2 class="text-3xl font-bold mb-4">How It All Started</h2>
+      <p class="mb-6 leading-relaxed text-gray-600 dark:text-gray-300">
+        As students ourselves, we saw how difficult it was for classmates to make various payments-acceptance, school fees, dues-on unreliable school portals or through risky manual methods.
+      </p>
+      <p class="leading-relaxed text-gray-600 dark:text-gray-300">
+        That’s why <strong>Quickly</strong> was born: a simple platform that lets you select which school payments you want to make, send your funds securely, and we handle the rest - from the school portal down to your receipt.
+      </p>
+    </div>
+    <div class="flex justify-center md:justify-end">
+      <img src="{% static 'img/hero.svg' %}" alt="How it started" class="w-full max-w-md" data-aos="zoom-in" />
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-20 bg-gray-50 dark:bg-gray-800" data-aos="fade-up">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-4">How Quickly Works</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
+      From start to finish, we handle every step to make sure your payment is made correctly and your receipts delivered.
     </p>
 
-    <div class="flex flex-col md:flex-row justify-center items-center gap-8 mt-12" data-aos="fade-up">
-
-      <!-- Mission -->
-      <div class="flex flex-col items-center text-center max-w-sm">
-        <div class="bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-200 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-          <i data-lucide="target" class="w-6 h-6"></i>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow" data-aos="fade-up">
+        <div class="mb-4 text-blue-600 dark:text-blue-400">
+          <i data-lucide="user-plus" class="w-6 h-6"></i>
         </div>
-        <h3 class="text-xl font-semibold mb-2">Our Mission</h3>
-        <p class="text-gray-600 dark:text-gray-300">
-          To simplify academic payment systems and empower students with control and clarity.
-        </p>
+        <h3 class="text-xl font-semibold mb-2">Sign Up</h3>
+        <p>Create an account and verify your email - simple, fast, secure.</p>
       </div>
-
-      <!-- Vision -->
-      <div class="flex flex-col items-center text-center max-w-sm">
-        <div class="bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-200 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-          <i data-lucide="eye" class="w-6 h-6"></i>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow" data-aos="fade-up" data-aos-delay="100">
+        <div class="mb-4 text-blue-600 dark:text-blue-400">
+          <i data-lucide="credit-card" class="w-6 h-6"></i>
         </div>
-        <h3 class="text-xl font-semibold mb-2">Our Vision</h3>
-        <p class="text-gray-600 dark:text-gray-300">
-          A future where no student is left behind due to financial opacity or administrative delays.
-        </p>
+        <h3 class="text-xl font-semibold mb-2">Make Payment</h3>
+        <p>Choose your payment method - Bank Transfer or Paystack - and confirm.</p>
       </div>
-
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow" data-aos="fade-up" data-aos-delay="200">
+        <div class="mb-4 text-blue-600 dark:text-blue-400">
+          <i data-lucide="mail-check" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Get Receipt</h3>
+        <p>We complete your payment on the school portal and deliver receipts via email or WhatsApp.</p>
+      </div>
     </div>
-
+  </div>
 </section>
+
+<!-- Our Mission -->
+<section class="py-20 bg-white dark:bg-gray-900" data-aos="fade-up">
+  <div class="max-w-5xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white">Our Mission</h2>
+    <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6">
+      To empower students with simple, trustworthy tools that remove friction from school payments, saving time and giving peace of mind.
+    </p>
+    <p class="text-gray-500 dark:text-gray-400">We believe academic excellence shouldn't be slowed down by bureaucracy.</p>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 text-white dark:from-blue-700 dark:via-blue-800 dark:to-indigo-900" data-aos="fade-up">
+  <div class="max-w-4xl mx-auto text-center px-6">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Ready to Make Your First Payment?</h2>
+    <p class="text-lg md:text-xl mb-8">Join hundreds of students trusting Quickly every semester.</p>
+    <a href="{% url 'register' %}" class="inline-block px-8 py-3 bg-white text-blue-700 font-semibold rounded-full shadow hover:bg-gray-100 transition dark:bg-gray-100 dark:hover:bg-gray-200">
+      Create Account
+    </a>
+  </div>
+</section>
+
 {% endblock %}

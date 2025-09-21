@@ -18,6 +18,7 @@
 
     {% tailwind_css %}
     <link rel="stylesheet" href="{% static 'js/bundle.css' %}">
+    <!-- Splide Carousel CSS -->
     {% block styles %}{% endblock %}
   </head>
 
@@ -49,12 +50,12 @@
     <!-- Darkmode Script -->
     <script src="{% static 'js/darkmode.js' %}" defer></script>
     
-    <!-- Alpine / AOS / Lucide JS Library -->
+    <!-- Alpine / AOS / Lucide / Splide JS Library -->
     <script src="{% static 'js/bundle.js' %}" defer></script>
 
     <!-- Toast Container -->
     <div id="toast" class="fixed bottom-6 right-6 max-w-sm w-full bg-green-600 text-white px-4 py-3 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50"></div>
-
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const toast = document.getElementById('toast');
@@ -63,12 +64,12 @@
                 toast.textContent = "{{ message }}";
                 toast.classList.remove('opacity-0', 'pointer-events-none');
                 setTimeout(() => {
-                toast.classList.add('opacity-0', 'pointer-events-none');
+                toast.classList.add('opacity-0', 'pointer-events-none');  
                 }, 4000);
-            {% endfor %}
+            {% endfor %}    
             {% endif %}
-        });
-    </script>
+        });    
+    </script>    
 
     {% block scripts %}{% endblock %}
   </body>

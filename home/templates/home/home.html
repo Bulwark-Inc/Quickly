@@ -18,7 +18,7 @@
         <!-- Text -->
         <div>
         <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-            Make your Academic Payments with <span class="text-white/90 dark:text-white">Quickly</span>
+            Handle your Academic Debts with <span class="text-white/60 dark:text-white text-5xl md:text-6xl">Quickly</span>
         </h1>
         <p class="text-lg text-white/80 mb-8 dark:text-white/70">
             Streamline your workflow, save time, and focus on what matters with a platform built for modern payments and smart students.
@@ -45,14 +45,50 @@
     </svg>
 </section>
 
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-white dark:bg-gray-900" data-aos="fade-up">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    
+    <!-- Text Section -->
+    <div>
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-white">
+        Helping You turn Academic debts into credit score, Stress-Free
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+        Quickly is your one-stop solution to manage semester payments, academic needs, and more - built for students, by a student.
+      </p>
+      <div class="space-y-6">
+        {% for item in about_bullets %}
+        <div class="flex items-start space-x-4">
+          <div class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full shadow">
+            <i data-lucide="{{ item.icon }}" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-1">{{ item.title }}</h4>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">{{ item.text }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Image Section -->
+    <div class="flex justify-center md:justify-end">
+      <img src="{% static 'home/img/about-illustration.svg' %}" alt="About Quickly" class="rounded-lg shadow-lg w-full max-w-md" data-aos="zoom-in" />
+    </div>
+  </div>
+</section>
+
+
 <!-- Features Section -->
 <section id="features" class="py-20 bg-gray-50 dark:bg-gray-900" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-6 text-center">
     <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">
-      Features Built for Productivity
+      Features Built for Students
     </h2>
     <p class="text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-      Everything you need to run and scale your business — all in one place.
+      Designed to make student payments simple, secure, and stress-free - all in one place.
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
@@ -66,84 +102,132 @@
       </div>
       {% endfor %}
     </div>
-
   </div>
 </section>
 
-<!-- About Section -->
-<section id="about" class="py-20 bg-white dark:bg-gray-900" data-aos="fade-up">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-    <div>
-        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-white">Manage & Scale Your Business with Confidence</h2>
-        <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Quickly is built to simplify operations and accelerate your workflow...</p>
-        <ul class="space-y-5">
-            {% for item in about_bullets %}
-                <li class="flex items-start">
-                <div class="w-8 h-8 flex items-center justify-center bg-blue-600 text-white rounded-full mr-4">
-                    <i data-lucide="{{ item.icon }}" class="w-5 h-5"></i>
-                </div>
-                <p class="text-gray-700 dark:text-gray-300">{{ item.text }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
 
-    <div class="flex justify-center md:justify-end">
-      <img src="{% static 'img/Hero.jpg' %}" alt="About" class="rounded-lg shadow-lg w-full max-w-md" data-aos="zoom-in" />
-    </div>
-  </div>
-</section>
 
-<!-- Overview / Tutorial -->
+<!-- Tutorial -->
 <section id="overview" class="bg-gray-100 dark:bg-gray-800 py-20" data-aos="fade-up">
-  <div class="max-w-7xl mx-auto px-6 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">Quick Tutorial</h2>
-    <p class="text-gray-600 dark:text-gray-400 mb-12 max-w-xl mx-auto">Get started in just a few steps...</p>
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-800 dark:text-white">
+      How to Make Payments
+    </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-      {% for step in overview_steps %}
-      <div data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'100' }}">
-        <div class="w-16 h-16 mx-auto mb-6 bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center rounded-full shadow">
-          <i data-lucide="{{ step.icon }}" class="w-6 h-6"></i>
-        </div>
-        <h3 class="text-xl font-semibold mb-2 dark:text-white">{{ step.title }}</h3>
-        <p class="text-gray-600 dark:text-gray-300">{{ step.desc }}</p>
+    {% for step in overview_steps %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mb-20 items-center group" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'100' }}">
+      
+      {% if forloop.counter0|divisibleby:2 %}
+      <!-- Text Left, Image Right -->
+      <div>
+        <span class="text-sm uppercase text-blue-500 font-semibold tracking-wide block mb-2">Step {{ forloop.counter }}</span>
+        <h3 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white transition-colors duration-300 group-hover:text-blue-600">
+          {{ step.title }}
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-base md:text-lg transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-200">
+          {{ step.desc }}
+        </p>
       </div>
-      {% endfor %}
+      <div class="flex justify-center">
+        <img src="{% static 'home/img' %}/tutorial-step-{{ forloop.counter }}.png" alt="Step {{ forloop.counter }}" class="w-full max-w-sm rounded-lg shadow-md transform transition duration-500 hover:scale-105 hover:shadow-xl">
+      </div>
+      {% else %}
+      <!-- Image Left, Text Right -->
+      <div class="flex justify-center">
+        <img src="{% static 'home/img' %}/tutorial-step-{{ forloop.counter }}.png" alt="Step {{ forloop.counter }}" class="w-full max-w-sm rounded-lg shadow-md transform transition duration-500 hover:scale-105 hover:shadow-xl">
+      </div>
+      <div>
+        <span class="text-sm uppercase text-blue-500 font-semibold tracking-wide block mb-2">Step {{ forloop.counter }}</span>
+        <h3 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white transition-colors duration-300 group-hover:text-blue-600">
+          {{ step.title }}
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-base md:text-lg transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-200">
+          {{ step.desc }}
+        </p>
+      </div>
+      {% endif %}
+
     </div>
+    {% endfor %}
   </div>
 </section>
 
-<!-- Pricing -->
+
+<!-- Pricing Section -->
 <section id="pricing" class="py-20 bg-white dark:bg-gray-900" data-aos="fade-up">
   <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">Pricing Plans</h2>
-    <p class="text-gray-600 dark:text-gray-400 mb-12 max-w-xl mx-auto">Choose a plan that suits your business...</p>
+    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">Our Pricing</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-12 max-w-xl mx-auto">
+      Simple and transparent pricing based on your needs - no hidden fees.
+    </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Each pricing card follows this format -->
-      <!-- Add dark mode where needed -->
-      <!-- Highlighted card already has good contrast -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+      <!-- Card 1 -->
+      <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+        <div class="mb-4 text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">Single Payment</div>
+        <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">₦1,000 – ₦2,000</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">For one-time payment assistance.</p>
+        <ul class="space-y-3 mb-6 text-gray-600 dark:text-gray-300">
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1k for payments < ₦50k</li>
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1.5k for ₦50k – ₦99,999</li>
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦2k for ₦100k and above</li>
+        </ul>
+        <a href="{% url 'register' %}" class="inline-block w-full text-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Get Started</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-1 border-2 border-blue-600 dark:border-blue-500">
+        <div class="mb-4 text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">Two Payments</div>
+        <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">₦1,000 – ₦1,500 per payment</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">Ideal if you're making two different payments.</p>
+        <ul class="space-y-3 mb-6 text-gray-600 dark:text-gray-300">
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1k each ≤ ₦100k</li>
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>₦1.5k each > ₦100k</li>
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>Separate receipts for each</li>
+        </ul>
+        <a href="{% url 'register' %}" class="inline-block w-full text-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Start Now</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 border-2 border-green-500 relative">
+        <span class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-bl">Best Value</span>
+        <div class="mb-4 text-green-600 dark:text-green-400 font-semibold text-sm uppercase tracking-wide">3+ Payments</div>
+        <h3 class="text-2xl font-bold mb-2 text-gray-800 dark:text-white">20% Discount</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">Let us handle 3 or more payments and enjoy automatic discounts.</p>
+        <ul class="space-y-3 mb-6 text-gray-600 dark:text-gray-300">
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>20% off total service fee</li>
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>Priority processing</li>
+          <li><i data-lucide="check" class="inline w-5 h-5 mr-2 text-green-500"></i>Grouped receipt delivery</li>
+        </ul>
+        <a href="{% url 'register' %}" class="inline-block w-full text-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">Pay Less Now</a>
+      </div>
     </div>
   </div>
 </section>
+
 
 <!-- Testimonials -->
 <section id="testimonial" class="bg-gray-50 dark:bg-gray-900 py-20" data-aos="fade-up">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">What Our Clients Say</h2>
-    <p class="text-gray-600 dark:text-gray-400 mb-12 max-w-xl mx-auto">Don’t just take our word for it...</p>
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">What Our Users Say</h2>
+    <p class="text-gray-600 dark:text-gray-400 mb-12 max-w-xl mx-auto">Real feedback from real students using Quickly.</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {% for t in testimonials %}
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-md transition" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:'100' }}">
-        <p class="text-gray-600 dark:text-gray-300 italic mb-4">{{ t.quote }}</p>
-        <div class="font-semibold text-blue-600 dark:text-blue-400">{{ t.name }}</div>
-        <div class="text-sm text-gray-500 dark:text-gray-400">{{ t.role }}</div>
+    <!-- Carousel Container -->
+    <div id="testimonial-carousel" class="splide" role="group" aria-label="Testimonials Carousel">
+      <div class="splide__track">
+        <ul class="splide__list">
+          {% for t in testimonials %}
+          <li class="splide__slide">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-xl mx-auto transition">
+              <p class="text-gray-600 dark:text-gray-300 italic mb-4">“{{ t.quote }}”</p>
+              <div class="font-semibold text-blue-600 dark:text-blue-400">{{ t.name }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">{{ t.role }}</div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
-      {% endfor %}
     </div>
-
   </div>
 </section>
 
@@ -152,7 +236,7 @@
     <div class="absolute top-[-100px] right-[-100px] w-72 h-72 bg-blue-400 opacity-30 rounded-full blur-3xl z-0 animate-pulse-slow"></div>
     <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
         <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Start Managing Your School Payments Effortlessly</h2>
-        <p class="text-lg md:text-xl mb-8">Join hundreds of students using <span class="font-semibold">Quickly</span> to simplify how they pay and manage their finances.</p>
+        <p class="text-lg md:text-xl mb-8">Join hundreds of students using <span class="font-semibold">Quickly</span> to simplify how they pay and manage their finances and time.</p>
         <a href="{% url 'register' %}" class="inline-block px-8 py-3 bg-white text-blue-700 font-semibold rounded-full shadow hover:bg-gray-100 transition dark:bg-gray-100 dark:hover:bg-gray-200">
             Create Your Account
         </a>

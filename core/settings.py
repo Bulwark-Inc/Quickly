@@ -16,7 +16,7 @@ DEBUG = env('DEBUG', default=True, cast=bool)
 OPENAI_API_KEY = env('OPENAI_API_KEY')
 
 if DEBUG:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['*']
     INTERNAL_IPS = [
         "127.0.0.1",
     ]
