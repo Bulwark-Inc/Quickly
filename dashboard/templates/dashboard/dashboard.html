@@ -7,21 +7,46 @@
 <section class="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 px-6">
   <div class="max-w-6xl mx-auto space-y-12" data-aos="fade-up">
 
-    <!-- Greeting -->
-    <div class="bg-white dark:bg-gray-800 shadow-md rounded-xl p-8">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center">
+    <!-- Flash Messages -->
+    {% if messages %}
+      <div class="space-y-2">
+        {% for message in messages %}
+          <div class="px-4 py-2 rounded text-sm font-medium
+            {% if message.tags == 'success' %}
+              bg-green-200 text-green-800
+            {% elif message.tags == 'error' %}
+              bg-red-200 text-red-800
+            {% else %}
+              bg-gray-200 text-gray-800
+            {% endif %}
+          ">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Greeting & Avatar -->
+    <div class="bg-white dark:bg-gray-800 shadow-md rounded-xl p-8 flex items-center gap-6">
+      {% if user.profile_picture %}
+        <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="w-16 h-16 rounded-full object-cover border border-gray-300">
+      {% else %}
+        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center">
           <i data-lucide="user" class="w-6 h-6"></i>
         </div>
-        <div>
-          <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Welcome, {{ user.first_name|default:user.email }}!</h1>
-          <p class="text-gray-500 dark:text-gray-400 text-sm">This is your dashboard overview</p>
-        </div>
+      {% endif %}
+
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
+          Welcome, {{ user.first_name|default:user.email }}!
+        </h1>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">This is your dashboard overview</p>
       </div>
     </div>
 
     <!-- User Info -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Email -->
       <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-2">
         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
           <i data-lucide="mail" class="w-5 h-5"></i> Email Address
@@ -29,11 +54,34 @@
         <p class="text-gray-600 dark:text-gray-300">{{ user.email }}</p>
       </div>
 
+      <!-- Matric Number -->
       <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-2">
         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
-          <i data-lucide="badge-percent" class="w-5 h-5"></i> Matric Number
+          <i data-lucide="fingerprint" class="w-5 h-5"></i> Matric Number
         </h3>
         <p class="text-gray-600 dark:text-gray-300">{{ user.matric_number }}</p>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-2">
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+          <i data-lucide="phone" class="w-5 h-5"></i> Phone Number
+        </h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          {{ user.phone_number|default:"Not provided - please provide so we can contact you via whatsapp" }}
+        </p>
+      </div>
+
+      <!-- School Portal Password -->
+      <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 space-y-2">
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+          <i data-lucide="lock" class="w-5 h-5"></i> School Portal Password
+        </h3>
+        {% if user.school_portal_password %}
+          <p class="text-gray-600 dark:text-gray-300">•••••• <span class="text-sm text-gray-400">(provided)</span></p>
+        {% else %}
+          <p class="text-red-500 text-sm">Not provided - Please provide so we can process your payments, except your transaction does not involve the school portal</p>
+        {% endif %}
       </div>
     </div>
 
@@ -44,46 +92,46 @@
       </h3>
 
       {% if payment_records %}
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-          <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
-            <tr>
-              <th class="px-4 py-2 text-left font-medium">Fee</th>
-              <th class="px-4 py-2 text-left font-medium">Amount</th>
-              <th class="px-4 py-2 text-left font-medium">Payment Method</th>
-              <th class="px-4 py-2 text-left font-medium">Status</th>
-              <th class="px-4 py-2 text-left font-medium">Date Paid</th>
-              <th class="px-4 py-2 text-left font-medium">Proof</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-            {% for record in payment_records %}
-            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td class="px-4 py-2">{{ record.fee_type.name }}</td>
-              <td class="px-4 py-2">₦{{ record.total_amount }}</td>
-              <td class="px-4 py-2">{{ record.session.payment_method|title }}</td>
-              <td class="px-4 py-2">
-                {% if record.status == 'verified' %}
-                  <span class="inline-block px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">Verified</span>
-                {% elif record.status == 'pending' %}
-                  <span class="inline-block px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full">Pending</span>
-                {% else %}
-                  <span class="inline-block px-2 py-1 text-xs font-semibold text-red-800 bg-red-200 rounded-full">Rejected</span>
-                {% endif %}
-              </td>
-              <td class="px-4 py-2">{{ record.date_paid|date:"M d, Y H:i" }}</td>
-              <td class="px-4 py-2">
-                {% if record.proof_of_payment %}
-                  <a href="{% url 'view_receipt_secure' record.id %}" target="_blank" class="text-blue-600 hover:underline">View</a>
-                {% else %}
-                  <em>No receipt uploaded</em>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+            <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+              <tr>
+                <th class="px-4 py-2 text-left font-medium">Fee</th>
+                <th class="px-4 py-2 text-left font-medium">Amount</th>
+                <th class="px-4 py-2 text-left font-medium">Payment Method</th>
+                <th class="px-4 py-2 text-left font-medium">Status</th>
+                <th class="px-4 py-2 text-left font-medium">Date Paid</th>
+                <th class="px-4 py-2 text-left font-medium">Proof</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+              {% for record in payment_records %}
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td class="px-4 py-2">{{ record.fee_type.name }}</td>
+                <td class="px-4 py-2">₦{{ record.total_amount }}</td>
+                <td class="px-4 py-2">{{ record.session.payment_method|title }}</td>
+                <td class="px-4 py-2">
+                  {% if record.status == 'verified' %}
+                    <span class="inline-block px-2 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">Verified</span>
+                  {% elif record.status == 'pending' %}
+                    <span class="inline-block px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full">Pending</span>
+                  {% else %}
+                    <span class="inline-block px-2 py-1 text-xs font-semibold text-red-800 bg-red-200 rounded-full">Rejected</span>
+                  {% endif %}
+                </td>
+                <td class="px-4 py-2">{{ record.date_paid|date:"M d, Y H:i" }}</td>
+                <td class="px-4 py-2">
+                  {% if record.proof_of_payment %}
+                    <a href="{% url 'view_receipt_secure' record.id %}" target="_blank" class="text-blue-600 hover:underline">View</a>
+                  {% else %}
+                    <em>No receipt uploaded</em>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       {% else %}
         <p class="text-gray-600 dark:text-gray-400">No payment records yet.</p>
       {% endif %}
@@ -91,13 +139,13 @@
 
     <!-- Navigation -->
     <div class="flex justify-between items-center mt-6">
-        <a href="{% url 'home' %}" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-2">
-            <i data-lucide="home" class="w-5 h-5"></i> Back to Home
-        </a>
+      <a href="{% url 'update_profile' %}" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-2">
+        <i data-lucide="user-pen" class="w-5 h-5"></i> Update Profile
+      </a>
 
-        <a href="{% url 'submit_payment' %}" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-2">
-            <i data-lucide="credit-card" class="w-5 h-5"></i> Make Payment
-        </a>
+      <a href="{% url 'submit_payment' %}" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-2">
+        <i data-lucide="credit-card" class="w-5 h-5"></i> Make Payment
+      </a>
     </div>
 
   </div>

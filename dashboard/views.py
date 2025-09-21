@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from payments.models import PaymentRecord
+from .forms import ProfileUpdateForm
 from django.conf import settings
 import mimetypes
 import os
@@ -42,3 +44,25 @@ def dashboard_view(request):
     }
 
     return render(request, 'dashboard/dashboard.html', context)
+
+
+@login_required
+def update_profile_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile has been updated successfully.")
+            return redirect('dashboard')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = ProfileUpdateForm(instance=user)
+
+    context = {
+        'form': form,
+        'user': user,
+    }
+    return render(request, 'dashboard/update_profile.html', context)

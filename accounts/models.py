@@ -2,6 +2,9 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.db import models
 
 
+def user_directory_path(instance, filename):
+    return f'profile_pics/user_{instance.id}/{filename}'
+
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name=None, last_name=None, matric_number=None, password=None):
         if not email:
@@ -49,6 +52,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     matric_number = models.CharField(max_length=20, unique=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+
+    # To be updated after authentication
+    profile_picture = models.ImageField(upload_to=user_directory_path, null=True, blank=True)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    school_portal_password = models.CharField(max_length=255, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'matric_number']

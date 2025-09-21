@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Update Profile{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gray-50 dark:bg-gray-900 py-16 px-6">
+  <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-8" data-aos="fade-up">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Update Your Profile</h1>
+
+    {% if messages %}
+      <div class="mb-4">
+        {% for message in messages %}
+          <div class="px-4 py-2 rounded text-sm
+            {% if message.tags == 'success' %}bg-green-200 text-green-800
+            {% elif message.tags == 'error' %}bg-red-200 text-red-800
+            {% endif %}
+          ">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <!-- Profile Picture -->
+      <div>
+        <label for="{{ form.profile_picture.id_for_label }}" class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Profile Picture</label>
+        {{ form.profile_picture }}
+        {% if user.profile_picture %}
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Current image:</p>
+          <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="w-24 h-24 rounded-full mt-2 object-cover border border-gray-300">
+        {% endif %}
+        {% if form.profile_picture.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.profile_picture.errors }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Phone Number -->
+      <div>
+        <label for="{{ form.phone_number.id_for_label }}" class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Phone Number</label>
+        {{ form.phone_number }}
+        {% if form.phone_number.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.phone_number.errors }}</p>
+        {% endif %}
+      </div>
+
+      <!-- School Portal Password -->
+      <div>
+        <label for="{{ form.school_portal_password.id_for_label }}" class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">School Portal Password</label>
+        {{ form.school_portal_password }}
+        {% if form.school_portal_password.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.school_portal_password.errors }}</p>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-150">
+        Update Profile
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <a href="{% url 'dashboard' %}" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold flex justify-center items-center gap-2">
+        <i data-lucide="chevron-left" class="w-5 h-5"></i> Back to Dashboard
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}
