@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import FeeType, PaymentSession, PaymentRecord
+from .models import FeeType, PaymentSession, PaymentRecord, PricingRule
 
 
 @admin.register(FeeType)
@@ -32,5 +32,46 @@ class PaymentRecordAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('user', 'fee_type', 'amount_paid', 'charge', 'total_amount', 'session', 'proof_of_payment', 'status', 'date_paid')
+        }),
+    )
+
+
+@admin.register(PricingRule)
+class PricingRuleAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'rule_type',
+        'min_total_amount',
+        'max_total_amount',
+        'min_fee_count',
+        'max_fee_count',
+        'value',
+        'is_active',
+        'created_at',
+    )
+    list_filter = ('rule_type', 'is_active', 'created_at')
+    search_fields = ('description',)
+    ordering = ('min_total_amount', 'min_fee_count')
+    readonly_fields = ('created_at',)
+    
+    fieldsets = (
+        (None, {
+            'fields': (
+                'rule_type',
+                'value',
+                'description',
+                'is_active',
+            ),
+        }),
+        ('Conditions', {
+            'fields': (
+                'min_total_amount',
+                'max_total_amount',
+                'min_fee_count',
+                'max_fee_count',
+            ),
+        }),
+        ('Timestamps', {
+            'fields': ('created_at',),
         }),
     )

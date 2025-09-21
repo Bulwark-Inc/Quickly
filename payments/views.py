@@ -8,6 +8,7 @@ import uuid
 import requests
 from django.views.decorators.csrf import csrf_exempt
 from .utils import send_payment_email
+from .pricing import calculate_adjusted_charge
 
 
 @login_required
@@ -33,13 +34,22 @@ def submit_payment_view(request):
                     'selected_fee_ids': selected_fee_ids,
                 })
 
-            total_amount = sum(fee.total for fee in fee_types)
+            total_amount = sum(fee.amount for fee in fee_types)  # sum of base amounts (without charges)
+            base_charge = sum(fee.charge for fee in fee_types)  # sum of base charges before adjustment
+
+            # Calculate adjusted charge using pricing rules
+            adjusted_charge = calculate_adjusted_charge(total_amount, len(fee_types), base_charge)
+
+            # Final total amount = total_amount + adjusted_charge
+            final_total = total_amount + adjusted_charge
+
             session = PaymentSession.objects.create(
                 user=user,
                 payment_method=payment_method,
-                total_amount=total_amount
+                total_amount=final_total
             )
 
+            # Save adjusted charge info in session or somewhere if needed (optional)
             request.session['selected_fees'] = [fee.id for fee in fee_types]
             request.session['session_id'] = str(session.session_id)
 

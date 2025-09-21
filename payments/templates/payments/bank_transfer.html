@@ -26,18 +26,41 @@
       <dl class="space-y-3 text-sm md:text-base">
         <div class="flex justify-between items-center">
           <dt class="font-medium">Account Name:</dt>
-          <dd>Quickly Payments Ltd</dd>
+          <dd>Shiloh Egwuatu</dd>
         </div>
         <div class="flex justify-between items-center">
           <dt class="font-medium">Account Number:</dt>
-          <dd>1234567890</dd>
+          <dd>3197613167</dd>
         </div>
         <div class="flex justify-between items-center">
           <dt class="font-medium">Bank:</dt>
-          <dd>Zenith Bank</dd>
+          <dd>First Bank</dd>
         </div>
         <div class="flex justify-between items-center mt-4 pt-4 border-t border-blue-300 dark:border-blue-700 font-semibold text-lg">
-          <dt>Amount to Pay:</dt>
+          <dt class="flex items-center gap-2">
+            Amount to Pay:
+
+            {% with fees|length as fee_count %}
+              <span class="inline-block text-xs px-2 py-0.5 rounded-full font-semibold
+                          {% if fee_count == 1 %}
+                            bg-yellow-100 text-blue-800 dark:bg-yellow-800 dark:text-blue-100
+                          {% elif fee_count == 2 %}
+                            bg-blue-100 text-green-800 dark:bg-blue-800 dark:text-green-100
+                          {% else %}
+                            bg-green-100 text-yellow-800 dark:bg-green-800 dark:text-yellow-100
+                          {% endif %}
+              ">
+                {% if fee_count == 1 %}
+                  1
+                {% elif fee_count == 2 %}
+                  2
+                {% else %}
+                  3+
+                {% endif %}
+              </span>
+            {% endwith %}
+          </dt>
+
           <dd>₦{{ session.total_amount|intcomma }}</dd>
         </div>
       </dl>
