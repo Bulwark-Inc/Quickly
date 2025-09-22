@@ -1,5 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Feature, AboutBullet, OverviewStep, Testimonial, PricingOption
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
+from django.conf import settings
+
 
 def home_view(request):
     context = {
@@ -12,11 +17,47 @@ def home_view(request):
     }
     return render(request, 'home/home.html', context)
 
+
 def about_view(request):
     return render(request, 'home/about.html')
 
+
 def contact_view(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        full_message = f"""
+        New contact form submission:
+
+        Name: {name}
+        Email: {email}
+        Subject: {subject}
+
+        Message:
+        {message}
+        """
+
+        try:
+            send_mail(
+                subject=f"[Contact Form] {subject}",
+                message=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False,
+            )
+            messages.success(request, "Your message was sent successfully!")
+            return redirect("contact")
+        except BadHeaderError:
+            return HttpResponse("Invalid header found.")
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            return redirect("contact")
+
     return render(request, 'home/contact.html')
+
 
 def privacy_view(request):
     policy_sections = [
